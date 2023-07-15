@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:45:16 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/06/20 21:30:51 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/15 11:51:48 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static char	**get_cmd_path(char **env)
 
 static void	input_info(char **av, t_info *info, char **env)
 {
-	ft_strlcpy(info->file_first, av[1], ft_strlen(av[1]) + 1);
-	ft_strlcpy(info->file_second, av[4], ft_strlen(av[4]) + 1);
+	ft_strlcpy(info->infile, av[1], ft_strlen(av[1]) + 1);
 	info->cmd_first = ft_split(av[2], ' ');
 	info->cmd_second = ft_split(av[3], ' ');
+	ft_strlcpy(info->outfile, av[4], ft_strlen(av[4]) + 1);
 	if (info->cmd_first[0] == NULL || info->cmd_second[0] == NULL)
 	{
 		write(1, "pipex: command not found\n", 25);
@@ -39,7 +39,7 @@ static void	input_info(char **av, t_info *info, char **env)
 	info->cmd_path = get_cmd_path(env);
 	if (info->cmd_path == NULL)
 	{
-		write(1, "pipex: PAHT not found\n", 22);
+		write(1, "pipex: PATH not found\n", 22);
 		exit(EXIT_FAILURE);
 	}
 }

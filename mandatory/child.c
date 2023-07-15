@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:22:41 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/06/20 22:56:33 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/15 11:26:19 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	first_child(t_info info, int *fd, char **env)
 	close(fd[READ_END]);
 	ft_dup2(fd[WRITE_END], STDOUT_FILENO);
 	close(fd[WRITE_END]);
-	file_fd = open(info.file_first, O_RDONLY, 0600);
+	file_fd = open(info.infile, O_RDONLY, 0600);
 	if (file_fd != -1)
 	{
 		ft_dup2(file_fd, STDIN_FILENO);
@@ -61,9 +61,10 @@ void	first_child(t_info info, int *fd, char **env)
 void	second_child(t_info info, int *fd, char **env)
 {
 	int	file_fd;
+
 	dup2(fd[READ_END], STDIN_FILENO);
 	close(fd[READ_END]);
-	file_fd = open(info.file_second, O_WRONLY | O_TRUNC | O_CREAT, 0600);
+	file_fd = open(info.outfile, O_WRONLY | O_TRUNC | O_CREAT, 0600);
 	if (file_fd < 0)
 	{
 		perror("open");
