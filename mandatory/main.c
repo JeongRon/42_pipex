@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 21:09:00 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/06/20 22:32:36 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:37:18 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int	main(int ac, char **av, char **env)
 	set_info(ac, av, &info, env);
 	ft_pipe(fd);
 	pid[0] = ft_fork();
-	if (pid[0] == 0)	// first_child
+	if (pid[0] == 0)
 		first_child(info, fd, env);
-	else // parent
+	else
 	{
 		close(fd[WRITE_END]);
 		pid[1] = ft_fork();
-		if (pid[1] == 0)	// second_child
+		if (pid[1] == 0)
 			second_child(info, fd, env);
 		else
 			close(fd[READ_END]);
