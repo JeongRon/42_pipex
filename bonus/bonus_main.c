@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 21:09:00 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/15 16:32:40 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:00:07 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,40 +70,31 @@ void	here_doc_set(int ac, char **av, t_info *info, char **env)
 
 void	here_doc_exec(t_info *info)
 {
-	int		tmp_file;
-	char	ch[1];
+	int		infile;
 	char	*line;
-	int		line_len;
 
-	line = NULL;
-	tmp_file = open(".tmp_file", O_CREAT | O_TRUNC | O_RDWR, 0600);
-	if (tmp_file < 0)
+	infile = open(".heredoc_file", O_CREAT | O_TRUNC | O_RDWR, 0600);
+	if (infile < 0)
 	{
-		printf("ERROR\n");
+		write(1, "pipex: open error\n", 22);
 		exit(EXIT_FAILURE);
 	}
 	while (1)
 	{
-		read(STDIN_FILENO, ch, 1);
-		if (ch[0] == '\n')
+		write(1, ">", 1);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
 		{
-			ft_strjoin(line, ch);
-			write(tmp_file, line, ft_strlen(line));
-			free(line);
-			line = NULL;
+			write(1, "pipex: gnl allocated error\n", 27);
+			exit(EXIT_FAILURE);
 		}
-		else if (ch[0] == '\0')
-		{
-			write(tmp_file, line, ft_strlen(line));
+		if (!ft_strncmp(info->limiter, line, ft_strlen(info->limiter)))
 			break ;
-		}
-		else
-		{
-			ft_strjoin(line, ch);
-			printf("%s\n", line);
-		}
+		write(infile, line, ft_strlen(line));
+		free(line);
 	}
-	close(tmp_file);
+	free(line);
+	close(infile);
 }
 
 int	main(int ac, char **av, char **env)
