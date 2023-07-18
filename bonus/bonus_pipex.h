@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:30:58 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/17 15:36:47 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/18 21:09:52 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define BUFFER_SIZE 5000
 # define READ_END 0
 # define WRITE_END 1
+# define INFILE_NAME ".heredoc_file"
 
 typedef struct s_cmd
 {
@@ -57,5 +58,15 @@ char	*ft_strdup(const char *src);
 void	free_all(char *a, char *b);
 int		ft_linelen(const char *s);
 char	*ft_strjoin(char *join_buff, char *tmp, int tmp_len);
+// bonus_set
+void	here_doc_set(int ac, char **av, t_info *info, char **env);
+void	multi_pipe_set(int ac, char **av, t_info *info, char **env);
+// bonus_exec
+void	here_doc_infile(t_info info);
+void	here_doc_exec(t_info info, char **env);
+// here_doc_child
+void	first_child(t_info info, int *fd, char **env);
+void	second_child(t_info info, int *fd, char **env);
+
 
 #endif

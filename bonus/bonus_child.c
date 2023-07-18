@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child.c                                            :+:      :+:    :+:   */
+/*   bonus_child.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 18:22:41 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/18 20:36:11 by jeongrol         ###   ########.fr       */
+/*   Created: 2023/07/18 18:12:56 by jeongrol          #+#    #+#             */
+/*   Updated: 2023/07/18 20:57:36 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "bonus_pipex.h"
 
 static void	filepath_init(char *path)
 {
@@ -23,7 +23,7 @@ static void	filepath_init(char *path)
 	}
 }
 
-void	filepath_search(t_info info, char *cmd, char *filepath)
+static void	filepath_search(t_info info, char *cmd, char *filepath)
 {
 	int	i;
 
@@ -48,23 +48,21 @@ void	first_child(t_info info, int *fd, char **env)
 	close(fd[READ_END]);
 	ft_dup2(fd[WRITE_END], STDOUT_FILENO);
 	close(fd[WRITE_END]);
-	file_fd = open(info.infile, O_RDONLY, 0600);
-	if (file_fd < 0)
+	file_fd = open(INFILE_NAME, O_RDONLY, 0600);
+	if (file_fd != -1)
 	{
-		perror("open");
-		exit(EXIT_FAILURE);
+		ft_dup2(file_fd, STDIN_FILENO);
+		close(file_fd);
 	}
-	ft_dup2(file_fd, STDIN_FILENO);
-	close(file_fd);
-	filepath_search(info, info.cmd_first[0], info.file_path);
-	ft_execve(info.file_path, info.cmd_first, env);
+	filepath_search(info, info.cmd_all[0].cmd[0], info.file_path);
+	ft_execve(info.file_path, info.cmd_all[0].cmd, env);
 }
 
 void	second_child(t_info info, int *fd, char **env)
 {
 	int	file_fd;
 
-	ft_dup2(fd[READ_END], STDIN_FILENO);
+	dup2(fd[READ_END], STDIN_FILENO);
 	close(fd[READ_END]);
 	file_fd = open(info.outfile, O_WRONLY | O_TRUNC | O_CREAT, 0600);
 	if (file_fd < 0)
@@ -72,8 +70,9 @@ void	second_child(t_info info, int *fd, char **env)
 		perror("open");
 		exit(EXIT_FAILURE);
 	}
-	ft_dup2(file_fd, STDOUT_FILENO);
+	dup2(file_fd, STDOUT_FILENO);
 	close(file_fd);
-	filepath_search(info, info.cmd_second[0], info.file_path);
-	ft_execve(info.file_path, info.cmd_second, env);
+	filepath_search(info, info.cmd_all[1].cmd[0], info.file_path);
+	ft_execve(info.file_path, info.cmd_all[1].cmd, env);
+	exit(EXIT_SUCCESS);
 }

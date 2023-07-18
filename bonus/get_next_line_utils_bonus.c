@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 19:54:36 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/17 15:47:32 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/18 16:36:41 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,6 @@ void	free_all(char *a, char *b)
 	free(a);
 	free(b);
 }
-
-// int	ft_strlen(const char *s)
-// {
-// 	int	i;
-
-// 	if (!s)
-// 		return (0);
-// 	i = 0;
-// 	while (s[i] != '\0')
-// 		i++;
-// 	return (i);
-// }
 
 int	ft_linelen(const char *s)
 {
