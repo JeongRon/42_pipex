@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bonus_set.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeongron <jeongron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:27:55 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/18 21:10:55 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:11:56 by jeongron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	get_cmd_all(int *cmd_range, int cmd_cnt, char **av, t_info *info)
 	info->cmd_all[index].cmd = NULL;
 }
 
-void	here_doc_set(int ac, char **av, t_info *info, char **env)
+void	here_doc_set(char **av, t_info *info, char **env)
 {
 	ft_strlcpy(info->outfile, av[5], ft_strlen(av[5]) + 1);
 	ft_strlcpy(info->limiter, av[2], ft_strlen(av[2]) + 1);

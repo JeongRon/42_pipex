@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bonus_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeongron <jeongron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 21:09:00 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/18 21:45:54 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 01:24:18 by jeongron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int	main(int ac, char **av, char **env)
 			write(1, "pipex: there are not 5 arguments\n", 33);
 			exit(EXIT_FAILURE);
 		}
-		here_doc_set(ac, av, &info, env);
-		here_doc_exec(info, env);
+		here_doc_set(av, &info, env);
+		here_doc_exec(&info, env);
 	}
 	else
 	{
 		multi_pipe_set(ac, av, &info, env);
-		// multi_pipe_exec(info, env);
+		multi_pipe_exec(&info, env);
 	}
 	exit(EXIT_SUCCESS);
 }

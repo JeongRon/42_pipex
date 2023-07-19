@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bonus_util_libft.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeongron <jeongron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:00:56 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/18 20:26:18 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 01:02:30 by jeongron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,32 +80,3 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	dst[i] = '\0';
 	return (src_len);
 }
-
-// char	*ft_strjoin(char const *s1, char const *s2)
-// {
-// 	size_t	s_len;
-// 	char	*dest;
-// 	size_t	i;
-// 	size_t	j;
-
-// 	if (!s2)
-// 		return (NULL);
-// 	s_len = ft_strlen(s1) + ft_strlen(s2);
-// 	dest = (char *)malloc(sizeof(char) * (s_len + 1));
-// 	if (!dest)
-// 		return (NULL);
-// 	i = 0;
-// 	while (s1[i] != '\0')
-// 	{
-// 		dest[i] = s1[i];
-// 		i++;
-// 	}
-// 	j = 0;
-// 	while (s2[j] != '\0')
-// 	{
-// 		dest[i + j] = s2[j];
-// 		j++;
-// 	}
-// 	dest[i + j] = '\0';
-// 	return (dest);
-// }
