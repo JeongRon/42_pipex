@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:30:58 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/15 16:58:01 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 19:37:21 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	ft_pipe(int *fd);
 void	set_info(int ac, char **av, t_info *info, char **env);
 
 // child.c
-void	filepath_search(t_info info, char *cmd, char *filepath);
 void	first_child(t_info info, int *fd, char **env);
 void	second_child(t_info info, int *fd, char **env);
 

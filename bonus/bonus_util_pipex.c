@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:23:55 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 14:53:55 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 19:59:21 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,10 @@ void	ft_pipe(int *fd)
 		perror("pipe Error");
 		exit(EXIT_FAILURE);
 	}
+}
+
+void	ft_perror(char *str)
+{
+	perror(str);
+	exit(EXIT_FAILURE);
 }

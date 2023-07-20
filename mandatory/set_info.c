@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:45:16 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 14:36:43 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 20:44:56 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static char	**get_cmd_path(char **env)
 	while (env[++index] != NULL)
 	{
 		if (ft_strncmp(env[index], "PATH=", 5) == 0)
-			break ;
+			return (ft_split(&env[index][5], ':'));
 	}
-	return (ft_split(&env[index][5], ':'));
+	return (0);
 }	
 
 static void	input_info(char **av, t_info *info, char **env)
@@ -37,34 +37,14 @@ static void	input_info(char **av, t_info *info, char **env)
 		exit(EXIT_FAILURE);
 	}
 	info->cmd_path = get_cmd_path(env);
-	if (info->cmd_path == NULL)
-	{
-		perror("Path Not Found");
-		exit(EXIT_FAILURE);
-	}
 }
 
-static void	validate_ac_av(int ac, char **av)
+void	set_info(int ac, char **av, t_info *info, char **env)
 {
-	int	fd;
-
 	if (ac != 5)
 	{
 		perror("Incorrect Arguments Count");
 		exit(EXIT_FAILURE);
 	}
-	fd = open(av[1], O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Can Not Read Infile");
-		exit(EXIT_FAILURE);
-	}
-	else
-		close(fd);
-}
-
-void	set_info(int ac, char **av, t_info *info, char **env)
-{
-	validate_ac_av(ac, av);
 	input_info(av, info, env);
 }

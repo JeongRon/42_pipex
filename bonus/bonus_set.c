@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:27:55 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 14:53:17 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 20:05:11 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static char	**get_cmd_path(char **env)
 	while (env[++index] != NULL)
 	{
 		if (ft_strncmp(env[index], "PATH=", 5) == 0)
-			break ;
+			return (ft_split(&env[index][5], ':'));
 	}
-	return (ft_split(&env[index][5], ':'));
+	return (0);
 }	
 
 static void	get_cmd_all(int *cmd_range, int cmd_cnt, char **av, t_info *info)
@@ -34,18 +34,12 @@ static void	get_cmd_all(int *cmd_range, int cmd_cnt, char **av, t_info *info)
 	cmd_direction = cmd_range[0];
 	info->cmd_all = (t_cmd *)malloc(sizeof(t_cmd) * (cmd_cnt + 1));
 	if (!info->cmd_all)
-	{
-		perror("cmd Allocation Error");
-		exit(EXIT_FAILURE);
-	}
+		ft_perror("cmd Allocation Error");
 	while (cmd_direction <= cmd_range[1])
 	{
 		info->cmd_all[index].cmd = ft_split(av[cmd_direction], ' ');
 		if (!info->cmd_all[index].cmd)
-		{
-			perror("cmd Split Error");
-			exit(EXIT_FAILURE);
-		}
+			ft_perror("cmd Split Error");
 		index++;
 		cmd_direction++;
 	}
@@ -60,11 +54,6 @@ void	here_doc_set(char **av, t_info *info, char **env)
 	info->cmd_range[1] = 4;
 	info->cmd_cnt = 2;
 	info->cmd_path = get_cmd_path(env);
-	if (info->cmd_path == NULL)
-	{
-		perror("cmd_path Not Found");
-		exit(EXIT_FAILURE);
-	}
 	get_cmd_all(info->cmd_range, info->cmd_cnt, av, info);
 }
 
@@ -76,10 +65,5 @@ void	multi_pipe_set(int ac, char **av, t_info *info, char **env)
 	info->cmd_range[1] = ac - 2;
 	info->cmd_cnt = info->cmd_range[1] - info->cmd_range[0] + 1;
 	info->cmd_path = get_cmd_path(env);
-	if (info->cmd_path == NULL)
-	{
-		perror("cmd_path Not Found");
-		exit(EXIT_FAILURE);
-	}
 	get_cmd_all(info->cmd_range, info->cmd_cnt, av, info);
 }

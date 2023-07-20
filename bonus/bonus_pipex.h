@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:30:58 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 15:37:57 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 20:12:49 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	ft_execve(char *filepath, char **av, char **envp);
 void	ft_dup2(int old_fd, int new_fd);
 pid_t	ft_fork(void);
 void	ft_pipe(int *fd);
+void	ft_perror(char *str);
 // get_next_line
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *src);
@@ -70,9 +71,8 @@ void	here_doc_exec(t_info *info, char **env);
 void	multi_pipe_exec(t_info *info, char **env);
 // bonus_child
 void	first_child_process(t_info *info, char **env, int flag);
-void	last_child_process(t_info *info, char **env, int index, int flag);
-void	middle_child_process(t_info *info, char **env, int index);
+void	last_child_process(t_info *info, char **env, int i, int flag);
+void	middle_child_process(t_info *info, char **env, int i);
 void	child_process(int index, t_info *info, char **env);
-
 
 #endif
