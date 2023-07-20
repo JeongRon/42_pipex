@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bonus_pipex.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeongron <jeongron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:30:58 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 01:03:06 by jeongron         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:37:57 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	multi_pipe_set(int ac, char **av, t_info *info, char **env);
 void	here_doc_exec(t_info *info, char **env);
 void	multi_pipe_exec(t_info *info, char **env);
 // bonus_child
-void	first_child_process(t_info *info, char **env);
-void	last_child_process(t_info *info, char **env, int index);
+void	first_child_process(t_info *info, char **env, int flag);
+void	last_child_process(t_info *info, char **env, int index, int flag);
 void	middle_child_process(t_info *info, char **env, int index);
 void	child_process(int index, t_info *info, char **env);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bonus_set.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeongron <jeongron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:27:55 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 00:11:56 by jeongron         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:53:17 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	get_cmd_all(int *cmd_range, int cmd_cnt, char **av, t_info *info)
 	info->cmd_all = (t_cmd *)malloc(sizeof(t_cmd) * (cmd_cnt + 1));
 	if (!info->cmd_all)
 	{
-		write(1, "pipex: cmd allocation fail\n", 27);
+		perror("cmd Allocation Error");
 		exit(EXIT_FAILURE);
 	}
 	while (cmd_direction <= cmd_range[1])
@@ -43,7 +43,7 @@ static void	get_cmd_all(int *cmd_range, int cmd_cnt, char **av, t_info *info)
 		info->cmd_all[index].cmd = ft_split(av[cmd_direction], ' ');
 		if (!info->cmd_all[index].cmd)
 		{
-			write(1, "pipex: cmd allocation fail OR cmd not found\n", 44);
+			perror("cmd Split Error");
 			exit(EXIT_FAILURE);
 		}
 		index++;
@@ -62,7 +62,7 @@ void	here_doc_set(char **av, t_info *info, char **env)
 	info->cmd_path = get_cmd_path(env);
 	if (info->cmd_path == NULL)
 	{
-		write(1, "pipex: PATH not found\n", 22);
+		perror("cmd_path Not Found");
 		exit(EXIT_FAILURE);
 	}
 	get_cmd_all(info->cmd_range, info->cmd_cnt, av, info);
@@ -78,7 +78,7 @@ void	multi_pipe_set(int ac, char **av, t_info *info, char **env)
 	info->cmd_path = get_cmd_path(env);
 	if (info->cmd_path == NULL)
 	{
-		write(1, "pipex: PATH not found\n", 22);
+		perror("cmd_path Not Found");
 		exit(EXIT_FAILURE);
 	}
 	get_cmd_all(info->cmd_range, info->cmd_cnt, av, info);

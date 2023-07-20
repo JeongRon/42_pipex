@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:45:16 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/15 11:51:48 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:36:43 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ static void	input_info(char **av, t_info *info, char **env)
 	ft_strlcpy(info->outfile, av[4], ft_strlen(av[4]) + 1);
 	if (info->cmd_first[0] == NULL || info->cmd_second[0] == NULL)
 	{
-		write(1, "pipex: command not found\n", 25);
+		perror("Command Not Found");
 		exit(EXIT_FAILURE);
 	}
 	info->cmd_path = get_cmd_path(env);
 	if (info->cmd_path == NULL)
 	{
-		write(1, "pipex: PATH not found\n", 22);
+		perror("Path Not Found");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -50,13 +50,13 @@ static void	validate_ac_av(int ac, char **av)
 
 	if (ac != 5)
 	{
-		write(1, "pipex: there are not 4 arguments\n", 33);
+		perror("Incorrect Arguments Count");
 		exit(EXIT_FAILURE);
 	}
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 	{
-		write(1, "pipex: can not read file_first\n", 26);
+		perror("Can Not Read Infile");
 		exit(EXIT_FAILURE);
 	}
 	else

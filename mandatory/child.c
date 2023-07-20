@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:22:41 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/18 20:36:11 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:35:46 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	filepath_search(t_info info, char *cmd, char *filepath)
 		if (access(filepath, F_OK) == 0)
 			return ;
 	}
-	perror("cmd access");
+	perror("Cmd Access Error");
 	exit(EXIT_FAILURE);
 }
 
@@ -51,7 +51,7 @@ void	first_child(t_info info, int *fd, char **env)
 	file_fd = open(info.infile, O_RDONLY, 0600);
 	if (file_fd < 0)
 	{
-		perror("open");
+		perror("Infile Open Error");
 		exit(EXIT_FAILURE);
 	}
 	ft_dup2(file_fd, STDIN_FILENO);
@@ -69,7 +69,7 @@ void	second_child(t_info info, int *fd, char **env)
 	file_fd = open(info.outfile, O_WRONLY | O_TRUNC | O_CREAT, 0600);
 	if (file_fd < 0)
 	{
-		perror("open");
+		perror("Outfile Open Error");
 		exit(EXIT_FAILURE);
 	}
 	ft_dup2(file_fd, STDOUT_FILENO);

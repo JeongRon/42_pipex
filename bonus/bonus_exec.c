@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bonus_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeongron <jeongron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:29:18 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 01:22:00 by jeongron         ###   ########.fr       */
+/*   Updated: 2023/07/20 16:43:34 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	here_doc_infile(t_info *info)
 	infile = open(INFILE_NAME, O_CREAT | O_TRUNC | O_RDWR, 0600);
 	if (infile < 0)
 	{
-		write(1, "pipex: open error\n", 22);
+		perror("Infile Open Error");
 		exit(EXIT_FAILURE);
 	}
 	while (1)
@@ -31,7 +31,8 @@ static void	here_doc_infile(t_info *info)
 		{
 			break ;
 		}
-		if (!ft_strncmp(info->limiter, line, ft_strlen(info->limiter)))
+		if (!ft_strncmp(info->limiter, line, ft_strlen(info->limiter)) \
+		&& (!ft_strncmp(info->limiter, line, ft_strlen(line) - 1)))
 			break ;
 		write(infile, line, ft_strlen(line));
 		free(line);
@@ -48,13 +49,13 @@ void	here_doc_exec(t_info *info, char **env)
 	ft_pipe(info->fd);
 	pid[0] = ft_fork();
 	if (pid[0] == 0)
-		first_child_process(info, env);
+		first_child_process(info, env, 0);
 	else
 	{
 		close(info->fd[WRITE_END]);
 		pid[1] = ft_fork();
 		if (pid[1] == 0)
-			last_child_process(info, env, 1);
+			last_child_process(info, env, 1, 0);
 	}
 	waitpid(pid[0], NULL, 0);
 	waitpid(pid[1], NULL, 0);
@@ -68,7 +69,7 @@ static pid_t	*pid_set(int cmd_cnt)
 	pid = (pid_t *)malloc(sizeof(pid_t) * cmd_cnt);
 	if (!pid)
 	{
-		perror("pid allocated");
+		perror("PID Allocation Error");
 		exit(EXIT_FAILURE);
 	}
 	return (pid);
@@ -83,10 +84,11 @@ static void	ft_waitpid(pid_t *pid, int cmd_cnt)
 	{
 		if (waitpid(pid[index], NULL, 0) < 0)
 		{
-			perror("waitpid");
+			perror("waitpid Error");
 			exit(EXIT_FAILURE);
 		}
 	}
+	free(pid);
 }
 
 void	multi_pipe_exec(t_info *info, char **env)

@@ -6,28 +6,11 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 21:09:00 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/12 20:37:18 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:25:03 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-static void	split_free(char **arr)
-{
-	int	i;
-
-	i = -1;
-	while (arr[++i] != NULL)
-		free(arr[i]);
-	free(arr);
-}
-
-void	free_info(t_info *info)
-{
-	split_free(info->cmd_first);
-	split_free(info->cmd_second);
-	split_free(info->cmd_path);
-}
 
 int	main(int ac, char **av, char **env)
 {
@@ -51,6 +34,5 @@ int	main(int ac, char **av, char **env)
 	}
 	waitpid(pid[0], NULL, 0);
 	waitpid(pid[1], NULL, 0);
-	free_info(&info);
-	return (0);
+	exit(EXIT_SUCCESS);
 }
