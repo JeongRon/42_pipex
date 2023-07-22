@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:30:58 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 20:12:49 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:14:50 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ typedef struct s_info
 	char	**cmd_path;
 	t_cmd	*cmd_all;
 	int		fd[2];
-	int		pre_pipe_read;
+	int		pre_pipe[2];
+	int		heredoc_flag;
 }	t_info;
 
 // util_libft
@@ -56,7 +57,7 @@ void	ft_execve(char *filepath, char **av, char **envp);
 void	ft_dup2(int old_fd, int new_fd);
 pid_t	ft_fork(void);
 void	ft_pipe(int *fd);
-void	ft_perror(char *str);
+void	ft_error(char *str);
 // get_next_line
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *src);
@@ -64,15 +65,11 @@ void	free_all(char *a, char *b);
 int		ft_linelen(const char *s);
 char	*ft_strjoin(char *join_buff, char *tmp, int tmp_len);
 // bonus_set
-void	here_doc_set(char **av, t_info *info, char **env);
+void	here_doc_set(int ac, char **av, t_info *info, char **env);
 void	multi_pipe_set(int ac, char **av, t_info *info, char **env);
 // bonus_exec
-void	here_doc_exec(t_info *info, char **env);
-void	multi_pipe_exec(t_info *info, char **env);
+void	bonus_pipe_exec(t_info *info, char **env, int index);
 // bonus_child
-void	first_child_process(t_info *info, char **env, int flag);
-void	last_child_process(t_info *info, char **env, int i, int flag);
-void	middle_child_process(t_info *info, char **env, int i);
 void	child_process(int index, t_info *info, char **env);
 
 #endif

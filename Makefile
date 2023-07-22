@@ -6,7 +6,7 @@
 #    By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/20 21:32:47 by jeongrol          #+#    #+#              #
-#    Updated: 2023/07/22 15:27:55 by jeongrol         ###   ########.fr        #
+#    Updated: 2023/07/22 21:03:25 by jeongrol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = pipex
 BONUS_NAME = bonus_pipex
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 RM = rm -f
 

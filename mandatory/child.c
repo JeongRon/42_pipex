@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:22:41 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 20:57:29 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/22 19:45:56 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static int	filepath_search(t_info info, char *cmd, char *filepath, int i)
 		if (access(filepath, F_OK) == 0)
 			return (1);
 	}
-	perror("Cmd Access Error");
-	exit(EXIT_FAILURE);
+	return (0);
 }
 
 void	first_child(t_info info, int *fd, char **env)
@@ -64,7 +63,7 @@ void	first_child(t_info info, int *fd, char **env)
 	file_flag = filepath_search(info, info.cmd_first[0], info.file_path, -1);
 	if (file_flag == 0)
 		ft_execve(info.cmd_first[0], info.cmd_first, env);
-	else
+	else if (file_flag == 1)
 		ft_execve(info.file_path, info.cmd_first, env);
 }
 
@@ -86,6 +85,6 @@ void	second_child(t_info info, int *fd, char **env)
 	file_flag = filepath_search(info, info.cmd_second[0], info.file_path, -1);
 	if (file_flag == 0)
 		ft_execve(info.cmd_second[0], info.cmd_second, env);
-	else
+	else if (file_flag == 1)
 		ft_execve(info.file_path, info.cmd_second, env);
 }

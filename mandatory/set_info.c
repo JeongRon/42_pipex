@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:45:16 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 20:44:56 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:06:07 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	input_info(char **av, t_info *info, char **env)
 	ft_strlcpy(info->outfile, av[4], ft_strlen(av[4]) + 1);
 	if (info->cmd_first[0] == NULL || info->cmd_second[0] == NULL)
 	{
-		perror("Command Not Found");
+		write(2, "Command Not Found\n", 18);
 		exit(EXIT_FAILURE);
 	}
 	info->cmd_path = get_cmd_path(env);
@@ -43,7 +43,7 @@ void	set_info(int ac, char **av, t_info *info, char **env)
 {
 	if (ac != 5)
 	{
-		perror("Incorrect Arguments Count");
+		write(2, "Incorrect Arguments Count\n", 26);
 		exit(EXIT_FAILURE);
 	}
 	input_info(av, info, env);

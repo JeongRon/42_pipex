@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 21:09:00 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 20:35:16 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:14:01 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ int	main(int ac, char **av, char **env)
 	}
 	i = -1;
 	while (++i < 2)
-		waitpid(0, NULL, 0);
+		wait(NULL);
 	exit(EXIT_SUCCESS);
 }

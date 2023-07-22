@@ -6,7 +6,7 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:23:55 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 14:37:43 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:08:05 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_execve(char *filepath, char **av, char **envp)
 {
 	if (execve(filepath, av, envp) == -1)
 	{
-		perror("Execve Error");
+		write(2, "bash : Command not found\n", 25);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -25,7 +25,7 @@ void	ft_dup2(int old_fd, int new_fd)
 {
 	if (dup2(old_fd, new_fd) == -1)
 	{
-		perror("Dup2 Error");
+		write(2, "Dup2 Error\n", 11);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -37,7 +37,7 @@ pid_t	ft_fork(void)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("Fork Error");
+		write(2, "Fork Error\n", 11);
 		exit(EXIT_FAILURE);
 	}
 	return (pid);
@@ -47,7 +47,7 @@ void	ft_pipe(int *fd)
 {
 	if (pipe(fd) == -1)
 	{
-		perror("Pipe Error");
-		exit(0);
+		write(2, "Pipe Error", 10);
+		exit(EXIT_FAILURE);
 	}
 }

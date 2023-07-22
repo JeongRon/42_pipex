@@ -6,21 +6,21 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:29:18 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/22 16:07:43 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:14:34 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus_pipex.h"
 
-static void	ft_waitpid(pid_t *pid, int cmd_cnt)
+static void	ft_wait_free(pid_t *pid, int cmd_cnt)
 {
-	int	index;
+	int	cnt;
 
-	index = -1;
-	while (++index < cmd_cnt)
+	cnt = 0;
+	while (cnt < cmd_cnt)
 	{
-		if (waitpid(0, NULL, 0) < 0)
-			ft_perror("waitpid Error");
+		wait(NULL);
+		cnt++;
 	}
 	free(pid);
 }
@@ -31,7 +31,7 @@ static pid_t	*pid_set(int cmd_cnt)
 
 	pid = (pid_t *)malloc(sizeof(pid_t) * cmd_cnt);
 	if (!pid)
-		ft_perror("PID Allocation Error");
+		ft_error("PID Allocation Error");
 	return (pid);
 }
 
@@ -42,7 +42,7 @@ static void	here_doc_infile(t_info *info)
 
 	infile = open(INFILE_NAME, O_CREAT | O_TRUNC | O_RDWR, 0600);
 	if (infile == -1)
-		ft_perror("Infile Open Error");
+		ft_error("Infile Open Error");
 	while (1)
 	{
 		write(1, "> ", 2);
@@ -61,52 +61,33 @@ static void	here_doc_infile(t_info *info)
 	close(infile);
 }
 
-void	here_doc_exec(t_info *info, char **env)
+static void	close_pre_pipe(t_info *info)
 {
-	pid_t	pid[2];
-
-	here_doc_infile(info);
-	ft_pipe(info->fd);
-	pid[0] = ft_fork();
-	if (pid[0] == 0)
-		first_child_process(info, env, 0);
-	else
-	{
-		close(info->fd[WRITE_END]);
-		pid[1] = ft_fork();
-		if (pid[1] == 0)
-			last_child_process(info, env, 1, 0);
-		else
-			close(info->fd[READ_END]);
-	}
-	waitpid(pid[0], NULL, 0);
-	waitpid(pid[1], NULL, 0);
-	unlink(INFILE_NAME);
+	close(info->pre_pipe[READ_END]);
+	close(info->pre_pipe[WRITE_END]);
 }
 
-void	multi_pipe_exec(t_info *info, char **env)
+void	bonus_pipe_exec(t_info *info, char **env, int index)
 {
 	pid_t	*pid;
-	int		index;
 
+	if (info->heredoc_flag == 1)
+		here_doc_infile(info);
 	pid = pid_set(info->cmd_cnt);
-	index = -1;
 	while (++index < info->cmd_cnt)
 	{
+		if (index > 1)
+			close_pre_pipe(info);
+		info->pre_pipe[0] = info->fd[READ_END];
+		info->pre_pipe[1] = info->fd[WRITE_END];
 		if (index != info->cmd_cnt - 1)
 			ft_pipe(info->fd);
 		pid[index] = ft_fork();
 		if (pid[index] == 0)
 			child_process(index, info, env);
-		else
-		{
-			if (index != info->cmd_cnt - 1)
-			{
-				info->pre_pipe_read = info->fd[READ_END];
-				close(info->fd[WRITE_END]);
-			}
-		}
 	}
-	close(info->fd[READ_END]);
-	ft_waitpid(pid, info->cmd_cnt);
+	close_pre_pipe(info);
+	ft_wait_free(pid, info->cmd_cnt);
+	if (info->heredoc_flag == 1)
+		unlink(INFILE_NAME);
 }
