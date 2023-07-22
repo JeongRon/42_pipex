@@ -6,11 +6,34 @@
 /*   By: jeongrol <jeongrol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:29:18 by jeongrol          #+#    #+#             */
-/*   Updated: 2023/07/20 21:10:40 by jeongrol         ###   ########.fr       */
+/*   Updated: 2023/07/22 16:07:43 by jeongrol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus_pipex.h"
+
+static void	ft_waitpid(pid_t *pid, int cmd_cnt)
+{
+	int	index;
+
+	index = -1;
+	while (++index < cmd_cnt)
+	{
+		if (waitpid(0, NULL, 0) < 0)
+			ft_perror("waitpid Error");
+	}
+	free(pid);
+}
+
+static pid_t	*pid_set(int cmd_cnt)
+{
+	pid_t	*pid;
+
+	pid = (pid_t *)malloc(sizeof(pid_t) * cmd_cnt);
+	if (!pid)
+		ft_perror("PID Allocation Error");
+	return (pid);
+}
 
 static void	here_doc_infile(t_info *info)
 {
@@ -53,33 +76,12 @@ void	here_doc_exec(t_info *info, char **env)
 		pid[1] = ft_fork();
 		if (pid[1] == 0)
 			last_child_process(info, env, 1, 0);
+		else
+			close(info->fd[READ_END]);
 	}
 	waitpid(pid[0], NULL, 0);
 	waitpid(pid[1], NULL, 0);
 	unlink(INFILE_NAME);
-}
-
-static pid_t	*pid_set(int cmd_cnt)
-{
-	pid_t	*pid;
-
-	pid = (pid_t *)malloc(sizeof(pid_t) * cmd_cnt);
-	if (!pid)
-		ft_perror("PID Allocation Error");
-	return (pid);
-}
-
-static void	ft_waitpid(pid_t *pid, int cmd_cnt)
-{
-	int	index;
-
-	index = -1;
-	while (++index < cmd_cnt)
-	{
-		if (waitpid(0, NULL, 0) < 0)
-			ft_perror("waitpid Error");
-	}
-	free(pid);
 }
 
 void	multi_pipe_exec(t_info *info, char **env)
